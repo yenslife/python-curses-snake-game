@@ -1,7 +1,12 @@
 [project]
-name = "python-curses-snake"
+name = "python-curses-snake-game"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = []
+
+[dependency-groups]
+dev = [
+    "black>=25.9.0",
+]
