@@ -17,15 +17,17 @@ GAME_AREA_END = (GAME_WIN_HEIGHT - 2, GAME_WIN_WIDTH - 2)
 MENU_WIN_START_Y = GAME_WIN_START_Y
 MENU_WIN_START_X = GAME_WIN_START_X + GAME_WIN_WIDTH + 2
 MENU_WIN_HEIGHT = GAME_WIN_HEIGHT
-MENU_WIN_WIDTH = 16
+MENU_WIN_WIDTH = 17
 ## 按鈕位置
-MENU_PAUSE_START = (15, 1)
-MENU_PAUSE_END = (19, MENU_WIN_WIDTH - 2)
+MENU_PAUSE_START = (15, 2)
+MENU_PAUSE_END = (19, MENU_WIN_WIDTH - 3)
 MENU_RESTART_START = (20, 1)
 MENU_RESTART_END = (24, MENU_WIN_WIDTH - 2)
 
 
 def main(stdscr: curses.window):
+    curses.start_color()
+    curses.curs_set(0)  # 隱藏游標
     stdscr.clear()
     stdscr.refresh()
 
@@ -57,18 +59,27 @@ def main(stdscr: curses.window):
     menu_win.box()  # Debug: 先畫個邊框看位置
     menu_win.addstr(0, 2, "SCORE: 696")
     menu_win.addstr(1, 2, "TIMER: 06:09")
+
+    # add colored rectangle buttons
     rectangle(menu_win, *MENU_PAUSE_START, *MENU_PAUSE_END)
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_MAGENTA)
+    menu_win.attron(curses.color_pair(1)) # 按鈕顏色
     menu_win.addstr(
         (MENU_PAUSE_START[0] + MENU_PAUSE_END[0]) // 2,
         (MENU_WIN_WIDTH - len("PAUSE")) // 2,
         "PAUSE",
     )
+    menu_win.attroff(curses.color_pair(1)) # 關閉按鈕顏色
+
     rectangle(menu_win, *MENU_RESTART_START, *MENU_RESTART_END)
+    curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_CYAN)
+    menu_win.attron(curses.color_pair(2))
     menu_win.addstr(
         (MENU_RESTART_START[0] + MENU_RESTART_END[0]) // 2,
         (MENU_WIN_WIDTH - len("RESTART")) // 2,
         "RESTART",
     )
+    menu_win.attroff(curses.color_pair(2))
     menu_win.refresh()
 
     # debug 用
